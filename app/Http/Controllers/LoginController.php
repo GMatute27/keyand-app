@@ -34,11 +34,14 @@ class LoginController extends Controller
     public function login(Request $request){
         $log=request()->except('_token');
         $si=User::where('email',$log['email'])
-        ->where('password',$log['password'])
         ->where('estatus','1')
         ->first();
+        $credentials = [
+            'email' => $si['email'],
+            'password' => $si['password'],
+        ];
         $remember=($request->has('remember_token') ? true : false);
-        if(Auth::attempt($si,$remember)){
+        if(Auth::attempt($credentials,$remember)){
             $request->session()->regenerate();
             return redirect()->intended(route('home'));
         }else{
@@ -51,6 +54,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
+        return redirect('login');
     }
 }

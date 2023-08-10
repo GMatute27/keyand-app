@@ -18,7 +18,7 @@ use App\Models\Categoria;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('inicio');
 });
 /*Route::get('/productos', function () {
     return view('productos.index');
@@ -35,3 +35,7 @@ Route::post('/validar-registro',[LoginController::class,'register'])->name('/val
 Route::post('/inicia-sesion',[LoginController::class,'login'])->name('/inicia-sesion');
 Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
